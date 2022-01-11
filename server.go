@@ -106,5 +106,5 @@ func main() {
 	// r.HandleFunc("/employees", EmployeesHandler)
 
 	// http.ListenAndServe("127.0.0.1:8000", LoggingMiddleware(r))
-	http.ListenAndServe("127.0.0.1:8000", handlers.LoggingHandler(os.Stdout, r))
+	http.ListenAndServe(":8000", handlers.LoggingHandler(os.Stdout, r))
 }
