@@ -3,19 +3,15 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-)
 
-type Employee struct {
-	ID         int    `json:"-"`
-	Name       string `json:"name"`
-	Department string `json:"division"`
-	ProjectID  int    `json:"project"`
-}
+	"algogrit.com/httpex/entities"
+)
 
 // func (e Employee) MarshalJSON() ([]byte, error) {
 // 	jsonString := fmt.Sprintf(`{"name": "%s", "division": "%s", "project": %d}`, e.Name, e.Department, e.ProjectID)
@@ -23,11 +19,7 @@ type Employee struct {
 // 	return []byte(jsonString), nil
 // }
 
-func (e Employee) String() string {
-	return fmt.Sprintf("%s is working in %s department on project: %d.", e.Name, e.Department, e.ProjectID)
-}
-
-var employees = []Employee{
+var employees = []entities.Employee{
 	{1, "Gaurav", "LnD", 1001},
 	{2, "Pranav", "Cloud", 1002},
 	{3, "Raja", "SRE", 10001},
@@ -44,7 +36,7 @@ func EmployeesIndexHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func EmployeeCreateHandler(w http.ResponseWriter, req *http.Request) {
-	var newEmployee Employee
+	var newEmployee entities.Employee
 
 	decoder := json.NewDecoder(req.Body)
 	decoder.DisallowUnknownFields()
@@ -105,6 +97,7 @@ func main() {
 
 	// r.HandleFunc("/employees", EmployeesHandler)
 
+	log.Println("Starting server on port:", 8000, "...")
 	// http.ListenAndServe("127.0.0.1:8000", LoggingMiddleware(r))
 	http.ListenAndServe(":8000", handlers.LoggingHandler(os.Stdout, r))
 }
