@@ -91,7 +91,7 @@ func TestFuzzCreate(t *testing.T) {
 		var body []byte
 		f.Fuzz(&body)
 
-		t.Log("Len:", len(body), "Cap:", cap(body))
+		// t.Log("Len:", len(body), "Cap:", cap(body))
 
 		reqBody := bytes.NewReader(body)
 
