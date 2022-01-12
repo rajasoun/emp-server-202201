@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
+
 	"algogrit.com/httpex/entities"
 )
 
@@ -30,9 +32,17 @@ func (h EmployeeHandler) Create(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	validate := validator.New()
+	errs := validate.Struct(newEmployee)
+
+	if errs != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintln(w, errs)
+		return
+	}
+
 	newEmp, _ := h.empSvcV1.Create(newEmployee)
 
 	w.Header().Add("Content-Type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(newEmp)
-
 }
