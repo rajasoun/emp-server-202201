@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package="algogrit.com/simple-grpc/api";
+
+message HelloRequest {
+  string Name = 1;
+}
+
+service Simple {
+  rpc Greeting(HelloRequest) returns (GreetingResponse); // Unary RPC
+}
+
+message GreetingResponse {
+  string Message = 1;
+}
